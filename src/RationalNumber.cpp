@@ -58,11 +58,17 @@ namespace RationalNumber {
     // Normalizes and simplifies the rational number
     void RationalNumber::normalize() {
 
+        if (numerator == 0) {
+            denominator = 1;
+            return;
+        }
+
         // Normalizing negatives
         if (denominator < 0) {
                 denominator *= -1;
                 numerator *= -1;
         }
+
 
         int lowerNumber;
 
@@ -73,7 +79,7 @@ namespace RationalNumber {
             lowerNumber = denominator;
         }
 
-        for (int i = lowerNumber; i > 0; i--) {
+        for (int i = lowerNumber; i > 1; i--) {
             if (denominator % i == 0 && numerator % i == 0) {
                 denominator /= i;
                 numerator   /= i;

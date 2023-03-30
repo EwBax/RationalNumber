@@ -6,8 +6,8 @@ using namespace std;
 
 int main() {
 
-    RationalNumber::RationalNumber rationalNumber1("16/64");
-    RationalNumber::RationalNumber rationalNumber2("32/64");
+    RationalNumber::RationalNumber rationalNumber1("17/64");
+    RationalNumber::RationalNumber rationalNumber2("11/52");
 
     rationalNumber1 = rationalNumber1 - rationalNumber2;
 
