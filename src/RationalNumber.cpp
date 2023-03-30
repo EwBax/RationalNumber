@@ -4,7 +4,7 @@
 
 #include <regex>
 #include <iostream>
-#include "RationalNumber.h"
+#include "../inc/RationalNumber.h"
 
 namespace RationalNumber {
 
@@ -12,11 +12,29 @@ namespace RationalNumber {
     //====================================CONSTRUCTORS==============================================
     //==============================================================================================
 
+    // Default constructor
+    RationalNumber::RationalNumber()  : numerator(0), denominator(1) {
+        std::cout << "Default RationalNumber constructor fired." << std::endl;
+    }
+
+    // Single integer constructor
+    RationalNumber::RationalNumber(const int n) : numerator(n), denominator(1) {
+        std::cout << "Single integer RationalNumber constructor fired." << std::endl;
+    }
+
+    // Double integer constructor
+    RationalNumber::RationalNumber(int n, int d) : numerator(n),denominator(d) {
+        std::cout << "Double integer RationalNumber constructor fired." << std::endl;
+    }
+
+
     // Constructor to parse a string
     RationalNumber::RationalNumber(const std::string &rationalNumber) {
 
-        // Regex for matching input format ^-?\d+(\/-?\d+)?$
-        std::regex regex(R"(^-?\d+(\/-?\d+)?$)");
+        std::cout << "String RationalNumber constructor fired." << std::endl;
+
+        // Regex for matching input format ^-?\d+(\/-?[1-9]\d*)?$
+        std::regex regex(R"(^-?\d+(\/-?0*[1-9](\d+)?)?$)");
 
         // Throwing exception if the string input is invalid
         if (!std::regex_match(rationalNumber, regex)) {
@@ -46,6 +64,9 @@ namespace RationalNumber {
 
     // Copy constructor
     RationalNumber::RationalNumber(const RationalNumber &rationalNumber) {
+
+        std::cout << "Copy RationalNumber constructor fired." << std::endl;
+
         this->numerator = rationalNumber.numerator;
         this->denominator = rationalNumber.denominator;
     }
@@ -89,26 +110,15 @@ namespace RationalNumber {
 
     }
 
-
-    // Modifies two rational numbers to have a common denominator, leaves them not normalized
-    void RationalNumber::findCommonDenominator(RationalNumber &num1, RationalNumber &num2) {
-
-        double d1 = num1.denominator;
-        double d2 = num2.denominator;
-
-        num1.numerator *= d2;
-        num1.denominator *= d2;
-        num2.numerator *= d1;
-        num2.denominator *= d1;
-
-    }
-
     //==============================================================================================
     //===============================OPERATOR OVERRIDES=============================================
     //==============================================================================================
 
 
     RationalNumber &RationalNumber::operator=(RationalNumber const &rationalNumber) {
+
+        std::cout << "RationalNumber '=' overload fired." << std::endl;
+
         // Calling swap function to swap values
         this->numerator = rationalNumber.numerator;
         this->denominator = rationalNumber.denominator;
@@ -117,30 +127,70 @@ namespace RationalNumber {
     }
 
 
-    RationalNumber &RationalNumber::operator+(RationalNumber rationalNumber) {
+    RationalNumber operator+(const RationalNumber &leftNum,
+            const RationalNumber &rightNum) {
 
-        // Finding common denominator
-        findCommonDenominator(*this, rationalNumber);
+        std::cout << "RationalNumber '+' overload fired." << std::endl;
 
-        this->numerator += rationalNumber.numerator;
+        RationalNumber result((leftNum.numerator * rightNum.denominator) + (rightNum.numerator *
+                leftNum.denominator));
+        result.denominator = leftNum.denominator * rightNum.denominator;
 
-        this->normalize();
+        result.normalize();
 
-        return *this;
+        return result;
 
     }
 
 
-    RationalNumber &RationalNumber::operator-(RationalNumber rationalNumber) {
+    RationalNumber operator-(const RationalNumber &leftNum,
+            const RationalNumber &rightNum) {
 
-        findCommonDenominator(*this, rationalNumber);
+        std::cout << "RationalNumber '-' overload fired." << std::endl;
 
-        this->numerator -= rationalNumber.numerator;
+        RationalNumber result(
+                (leftNum.numerator * rightNum.denominator) - (rightNum.numerator *leftNum.denominator),
+                leftNum.denominator * rightNum.denominator);
 
-        this->normalize();
+        result.normalize();
 
-        return *this;
+        return result;
+
     }
 
+    RationalNumber operator/(const RationalNumber &leftNum, const RationalNumber &rightNum) {
+
+        std::cout << "RationalNumber '/' overload fired." << std::endl;
+
+        // Flipping right number
+        RationalNumber result(rightNum.denominator, rightNum.numerator);
+
+        // Multiplying numbers
+        result.numerator *= leftNum.numerator;
+        result.denominator *= leftNum.denominator;
+
+        result.normalize();
+
+        return result;
+
+    }
+
+    RationalNumber operator*(const RationalNumber &leftNum, const RationalNumber &rightNum) {
+
+        std::cout << "RationalNumber '*' overload fired." << std::endl;
+
+        RationalNumber result(leftNum.numerator * rightNum.numerator,
+                              leftNum.denominator * rightNum.denominator);
+
+        result.normalize();
+
+        return result;
+
+    }
+
+    std::ostream &operator<<(std::ostream &output, const RationalNumber &rationalNumber) {
+        output << rationalNumber.numerator << "/" << rationalNumber.denominator;
+        return output;
+    }
 
 } // RationalNumber

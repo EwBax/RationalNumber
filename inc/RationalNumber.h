@@ -17,22 +17,17 @@ namespace RationalNumber {
 
     public:
         // Constructors
-        RationalNumber() : numerator(0), denominator(1) {};
+        RationalNumber();
 
-        explicit RationalNumber(const int n) : numerator(n), denominator(1) {};
+        explicit RationalNumber(int n);
 
-        explicit RationalNumber(const int n, const int d) :
-        numerator(n),denominator(d) {};
+        explicit RationalNumber(int n, int d);
 
         explicit RationalNumber(const std::string &rationalNumber);
         RationalNumber(const RationalNumber &rationalNumber);
 
         // Function to normalize the number
         void normalize();
-
-
-        static void findCommonDenominator(RationalNumber &num1, RationalNumber &num2);
-
 
         // Accessors
         int getNumerator() {return numerator;};
@@ -44,18 +39,29 @@ namespace RationalNumber {
 
         // operator override functions
         RationalNumber& operator= (RationalNumber const &rationalNumber);
-        RationalNumber& operator+ (RationalNumber rationalNumber);
-        RationalNumber& operator- (RationalNumber rationalNumber);
-        RationalNumber& operator/ (RationalNumber rationalNumber);
-        RationalNumber& operator* (RationalNumber rationalNumber);
         RationalNumber& operator> (RationalNumber rationalNumber);
         RationalNumber& operator< (RationalNumber rationalNumber);
         RationalNumber& operator== (RationalNumber rationalNumber);
-        friend std::ostream& operator<< (std::ostream &output, const RationalNumber &student);
+
+        friend RationalNumber operator+(const RationalNumber &leftNum,
+                const RationalNumber &rightNum);
+        friend RationalNumber operator-(const RationalNumber &leftNum,
+                const RationalNumber &rightNum);
+        friend RationalNumber operator/(const RationalNumber &leftNum,
+                const RationalNumber &rightNum);
+        friend RationalNumber operator*(const RationalNumber &leftNum,
+                const RationalNumber &rightNum);
+        friend std::ostream& operator<< (std::ostream &output, const RationalNumber &rationalNumber);
 
     };
 
 
+    RationalNumber operator+(const RationalNumber &leftNum,
+            const RationalNumber&rightNum);
+    RationalNumber operator-(const RationalNumber &leftNum,
+            const RationalNumber &rightNum);
+    RationalNumber operator/(const RationalNumber &leftNum,
+            const RationalNumber &rightNum);
     std::ostream& operator<< (std::ostream &output, const RationalNumber &rationalNumber);
 
 } // RationalNumber
