@@ -54,61 +54,68 @@ RationalNumber::RationalNumber getRationalNumberInput() {
 
 int main() {
 
+    while (true) {
+        cout << endl << "RATIONAL NUMBER DRIVER / DEMO" << endl << endl;
 
-    cout<< "RATIONAL NUMBER DRIVER / DEMO" << endl << endl;
 
+        cout << "FIRST NUMBER" << endl;
 
-    cout << "FIRST NUMBER" << endl;
+        RationalNumber::RationalNumber rationalNumber1 = getRationalNumberInput();
 
-    RationalNumber::RationalNumber rationalNumber1 = getRationalNumberInput();
+        cout << endl << "SECOND NUMBER" << endl;
 
-    cout << endl << "SECOND NUMBER" << endl;
+        RationalNumber::RationalNumber rationalNumber2 = getRationalNumberInput();
 
-    RationalNumber::RationalNumber rationalNumber2 = getRationalNumberInput();
+        cout << endl << "DEMOING ARITHMETIC OPERATORS" << endl << endl;
 
-    cout << endl << "DEMOING ARITHMETIC OPERATORS" << endl << endl;
+        RationalNumber::RationalNumber result;
 
-    RationalNumber::RationalNumber result;
-
-    // Demoing arithmetic operator overloads
-    result = rationalNumber1 + rationalNumber2;
-    cout << rationalNumber1 << " + " << rationalNumber2 << " = "
-        << result << endl << endl;
-
-    result = rationalNumber1 - rationalNumber2;
-    cout << rationalNumber1 << " - " << rationalNumber2 << " = "
-        << result << endl << endl;
-
-    result = rationalNumber1 * rationalNumber2;
-    cout << rationalNumber1 << " * " << rationalNumber2 << " = "
-        << result << endl << endl;
-
-    try {
-        result = rationalNumber1 / rationalNumber2;
-        cout << rationalNumber1 << " / " << rationalNumber2 << " = "
+        // Demoing arithmetic operator overloads
+        result = rationalNumber1 + rationalNumber2;
+        cout << rationalNumber1 << " + " << rationalNumber2 << " = "
              << result << endl << endl;
-    } catch (const invalid_argument &e) {
-        cout << "Error: cannot divide by zero." << endl << endl;
-    } catch (...) {
-        cout << "Error: something went wrong when dividing rational numbers." << endl << endl;
+
+        result = rationalNumber1 - rationalNumber2;
+        cout << rationalNumber1 << " - " << rationalNumber2 << " = "
+             << result << endl << endl;
+
+        result = rationalNumber1 * rationalNumber2;
+        cout << rationalNumber1 << " * " << rationalNumber2 << " = "
+             << result << endl << endl;
+
+        try {
+            result = rationalNumber1 / rationalNumber2;
+            cout << rationalNumber1 << " / " << rationalNumber2 << " = "
+                 << result << endl << endl;
+        } catch (const invalid_argument &e) {
+            cout << "Error: cannot divide by zero." << endl << endl;
+        } catch (...) {
+            cout << "Error: something went wrong when dividing rational numbers." << endl << endl;
+        }
+
+        // boolalpha makes bools display as true/false instead of 1/0
+        cout << "DEMOING COMPARISON OPERATORS" << boolalpha << endl << endl;
+
+        // Demoing comparison operator overloads
+        bool comparison = (rationalNumber1 > rationalNumber2);
+        cout << rationalNumber1 << " > " << rationalNumber2 << " = "
+             << comparison << endl << endl;
+
+        comparison = (rationalNumber1 < rationalNumber2);
+        cout << rationalNumber1 << " < " << rationalNumber2 << " = "
+             << comparison << endl << endl;
+
+        comparison = (rationalNumber1 == rationalNumber2);
+        cout << rationalNumber1 << " == " << rationalNumber2 << " = "
+             << comparison << endl << endl;
+
+
+        cout << "Enter [Q] to quit, or any other input to restart: ";
+        string input;
+        getline(cin, input);
+        if (input == "Q" || input == "q") {break;}
+
     }
-
-    // boolalpha makes bools display as true/false instead of 1/0
-    cout << "DEMOING COMPARISON OPERATORS" << boolalpha << endl << endl;
-
-    // Demoing comparison operator overloads
-    bool comparison = (rationalNumber1 > rationalNumber2);
-    cout << rationalNumber1 << " > " << rationalNumber2 << " = "
-         << comparison << endl << endl;
-
-    comparison = (rationalNumber1 < rationalNumber2);
-    cout << rationalNumber1 << " < " << rationalNumber2 << " = "
-         << comparison << endl << endl;
-
-    comparison = (rationalNumber1 == rationalNumber2);
-    cout << rationalNumber1 << " == " << rationalNumber2 << " = "
-         << comparison << endl << endl;
-
 
 
     return 0;
