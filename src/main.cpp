@@ -58,6 +58,8 @@ int main() {
         cout << endl << "RATIONAL NUMBER DRIVER / DEMO" << endl << endl;
 
 
+        cout << "Rational Numbers must be entered in the following formats: (-)#, or (-)#/(-)# with a denominator not "
+                "equal to zero." << endl << endl;
         cout << "FIRST NUMBER" << endl;
 
         RationalNumber::RationalNumber rationalNumber1 = getRationalNumberInput();

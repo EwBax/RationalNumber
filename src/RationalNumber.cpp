@@ -4,6 +4,7 @@
 
 #include <regex>
 #include <iostream>
+#include <numeric>
 
 #include "../inc/RationalNumber.h"
 
@@ -96,24 +97,9 @@ namespace RationalNumber {
                 numerator *= -1;
         }
 
-
-        int lowerNumber;
-
-        // Getting the absolute value of the numerator
-        numerator < 0 ? lowerNumber = numerator * -1 : lowerNumber = numerator;
-
-        if (lowerNumber > denominator) {
-            lowerNumber = denominator;
-        }
-
-        // Finding the highest common factor of numerator and denominator
-        for (int i = lowerNumber; i > 1; i--) {
-            if (denominator % i == 0 && numerator % i == 0) {
-                denominator /= i;
-                numerator   /= i;
-                break;
-            }
-        }
+        int gcd = std::gcd(numerator, denominator);
+        denominator /= gcd;
+        numerator /= gcd;
 
     }
 
@@ -237,7 +223,7 @@ namespace RationalNumber {
 
     // Output operator overload
     std::ostream &operator<<(std::ostream &output, const RationalNumber &rationalNumber) {
-        output << rationalNumber.numerator << "/" << rationalNumber.denominator;
+        output << rationalNumber.numerator << (rationalNumber.denominator == 1 ? "" : "/" + std::to_string(rationalNumber.denominator));
         return output;
     }
 
