@@ -4,6 +4,7 @@
 
 #include <regex>
 #include <iostream>
+
 #include "../inc/RationalNumber.h"
 
 namespace RationalNumber {
@@ -50,7 +51,11 @@ namespace RationalNumber {
         // Handling potential exception if number is too big for an int
         try {
             numerator = std::stoi(split.at(0));
-            denominator = std::stoi(split.at(1));
+            if (rationalNumber.find('/') != std::string::npos) {
+                denominator = std::stoi(split.at(1));
+            } else {
+                denominator = 1;
+            }
         } catch (const std::out_of_range &e) {
             throw std::out_of_range("Number too large for RationalNumber, std::out_of_range "
                                     "thrown.");
@@ -79,6 +84,7 @@ namespace RationalNumber {
     // Normalizes and simplifies the rational number
     void RationalNumber::normalize() {
 
+        // Checking for zero
         if (numerator == 0) {
             denominator = 1;
             return;
@@ -100,6 +106,7 @@ namespace RationalNumber {
             lowerNumber = denominator;
         }
 
+        // Finding the highest common factor of numerator and denominator
         for (int i = lowerNumber; i > 1; i--) {
             if (denominator % i == 0 && numerator % i == 0) {
                 denominator /= i;
@@ -119,7 +126,6 @@ namespace RationalNumber {
 
         std::cout << "RationalNumber '=' overload fired." << std::endl;
 
-        // Calling swap function to swap values
         this->numerator = rationalNumber.numerator;
         this->denominator = rationalNumber.denominator;
 
@@ -127,11 +133,12 @@ namespace RationalNumber {
     }
 
 
-    RationalNumber operator+(const RationalNumber &leftNum,
-            const RationalNumber &rightNum) {
+    RationalNumber operator+(const RationalNumber &leftNum, const RationalNumber &rightNum) {
 
         std::cout << "RationalNumber '+' overload fired." << std::endl;
 
+        // Using single int argument operator
+        // Finding common multiple denominator and adding numerators together
         RationalNumber result((leftNum.numerator * rightNum.denominator) + (rightNum.numerator *
                 leftNum.denominator));
         result.denominator = leftNum.denominator * rightNum.denominator;
@@ -143,11 +150,12 @@ namespace RationalNumber {
     }
 
 
-    RationalNumber operator-(const RationalNumber &leftNum,
-            const RationalNumber &rightNum) {
+    RationalNumber operator-(const RationalNumber &leftNum, const RationalNumber &rightNum) {
 
         std::cout << "RationalNumber '-' overload fired." << std::endl;
 
+        // Using double int argument operator
+        // Finding common multiple denominator and difference of numerators
         RationalNumber result(
                 (leftNum.numerator * rightNum.denominator) - (rightNum.numerator *leftNum.denominator),
                 leftNum.denominator * rightNum.denominator);
@@ -158,9 +166,15 @@ namespace RationalNumber {
 
     }
 
+
     RationalNumber operator/(const RationalNumber &leftNum, const RationalNumber &rightNum) {
 
         std::cout << "RationalNumber '/' overload fired." << std::endl;
+
+        // Checking for dividing by zero
+        if (rightNum.numerator == 0) {
+            throw std::invalid_argument("Dividing by zero");
+        }
 
         // Flipping right number
         RationalNumber result(rightNum.denominator, rightNum.numerator);
@@ -179,6 +193,7 @@ namespace RationalNumber {
 
         std::cout << "RationalNumber '*' overload fired." << std::endl;
 
+        // Multiplying numbers in double int constructor
         RationalNumber result(leftNum.numerator * rightNum.numerator,
                               leftNum.denominator * rightNum.denominator);
 
@@ -188,6 +203,39 @@ namespace RationalNumber {
 
     }
 
+    // Comparison operators
+
+    bool operator>(const RationalNumber &leftNum, const RationalNumber &rightNum) {
+
+        std::cout << "RationalNumber '>' overload fired." << std::endl;
+
+        // A/B > C/D if A*D > C*B
+        return (leftNum.numerator * rightNum.denominator) > (rightNum.numerator * leftNum
+            .denominator);
+    }
+
+
+    bool operator<(const RationalNumber &leftNum, const RationalNumber &rightNum) {
+
+        std::cout << "RationalNumber '<' overload fired." << std::endl;
+
+        // A/B <>> C/D if A*D < C*B
+        return (leftNum.numerator * rightNum.denominator) < (rightNum.numerator * leftNum
+            .denominator);
+    }
+
+
+    bool operator==(const RationalNumber &leftNum, const RationalNumber &rightNum) {
+
+        std::cout << "RationalNumber '==' overload fired." << std::endl;
+
+        // A/B == C/D if A*D == C*B
+        return (leftNum.numerator * rightNum.denominator) == (rightNum.numerator * leftNum
+            .denominator);
+    }
+
+
+    // Output operator overload
     std::ostream &operator<<(std::ostream &output, const RationalNumber &rationalNumber) {
         output << rationalNumber.numerator << "/" << rationalNumber.denominator;
         return output;

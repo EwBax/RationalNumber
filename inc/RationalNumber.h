@@ -39,28 +39,47 @@ namespace RationalNumber {
 
         // operator override functions
         RationalNumber& operator= (RationalNumber const &rationalNumber);
-        RationalNumber& operator> (RationalNumber rationalNumber);
-        RationalNumber& operator< (RationalNumber rationalNumber);
-        RationalNumber& operator== (RationalNumber rationalNumber);
 
         friend RationalNumber operator+(const RationalNumber &leftNum,
                 const RationalNumber &rightNum);
+
         friend RationalNumber operator-(const RationalNumber &leftNum,
                 const RationalNumber &rightNum);
+
         friend RationalNumber operator/(const RationalNumber &leftNum,
                 const RationalNumber &rightNum);
+
         friend RationalNumber operator*(const RationalNumber &leftNum,
                 const RationalNumber &rightNum);
+
+        friend bool operator>(const RationalNumber &leftNum,
+                const RationalNumber &rightNum);
+
+        friend bool operator<(const RationalNumber &leftNum,
+                const RationalNumber &rightNum);
+
+        friend bool operator==(const RationalNumber &leftNum,
+                const RationalNumber &rightNum);
+
         friend std::ostream& operator<< (std::ostream &output, const RationalNumber &rationalNumber);
 
     };
 
 
+    // using non-member functions to take in two arguments
+    // This would make it possible to implement using arithmetic or comparison operators with an int
+    // and RationalNumber
     RationalNumber operator+(const RationalNumber &leftNum,
             const RationalNumber&rightNum);
     RationalNumber operator-(const RationalNumber &leftNum,
             const RationalNumber &rightNum);
     RationalNumber operator/(const RationalNumber &leftNum,
+            const RationalNumber &rightNum);
+    bool operator>(const RationalNumber &leftNum,
+            const RationalNumber &rightNum);
+    bool operator<(const RationalNumber &leftNum,
+            const RationalNumber &rightNum);
+    bool operator==(const RationalNumber &leftNum,
             const RationalNumber &rightNum);
     std::ostream& operator<< (std::ostream &output, const RationalNumber &rationalNumber);
 
